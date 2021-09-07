@@ -1,18 +1,17 @@
 import { Router } from 'express'
+import { CategoriesRepository } from '../modules/cars/repositories/CategoriesRepository'
+import { createCategoryController } from '../modules/cars/useCases/createCategory'
 
 const categoriesRoutes = Router()
+const repository = new CategoriesRepository()
 
-const categories = []
+categoriesRoutes.get('/', (request, response) => {
+  
+})
 
-categoriesRoutes.post('/categories', (request, response) => {
-	const { name, description } = request.body
-
-  categories.push({
-    name,
-    description
-  })
-
-  return response.status(201).send()
+categoriesRoutes.post('/', (request, response) => {
+  return createCategoryController.handle(request, response)
+	
 })
 
 export { categoriesRoutes }
