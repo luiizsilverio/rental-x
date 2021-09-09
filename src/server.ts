@@ -1,11 +1,16 @@
 import express from 'express'
-import { categoriesRoutes } from './routes/categories.routes'
+import swaggerUi from 'swagger-ui-express'
+import swaggerConfig from './swagger.json'
+
+import { router } from './routes'
 
 const app = express()
 
 app.use(express.json())
 
-app.use(categoriesRoutes)
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerConfig))
+
+app.use(router)
 
 app.listen(3333, () => {
 	console.log('Rodando na porta 3333')
