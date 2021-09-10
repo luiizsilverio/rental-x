@@ -2,8 +2,8 @@
   "type": "postgres",
   "host": "localhost",
   "port": 5432,
-  "username": "postgres",
-  "password": "masterkey",
+  "username": "docker",
+  "password": "ignite",
   "database": "rentx",
   "entities": [
       "./src/model/*.ts"
