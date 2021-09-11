@@ -1,4 +1,4 @@
-import { Category } from "../../model/Category"
+import { Category } from "../../entities/Category"
 import { ICategoriesRepository } from "../../repositories/ICategoriesRepository"
 
 interface IRequest {
@@ -13,14 +13,14 @@ class CreateCategoryUseCase {
     this.repository = repository
   }
 
-  execute({ name, description }: IRequest): Category {
+  async execute({ name, description }: IRequest): Promise<Category> {
     const categoryJaExiste = this.repository.findByName(name)
 
     if (categoryJaExiste) {
       throw new Error("Categoria já existe ")
     }
 
-    const category = this.repository.create({ name, description })
+    const category = await this.repository.create({ name, description })
 
     return category
   }

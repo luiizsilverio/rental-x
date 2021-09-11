@@ -1,4 +1,4 @@
-import { Category } from "../model/Category";
+import { Category } from "../entities/Category";
 
 interface ICreateCategory {
   name: string
@@ -6,10 +6,10 @@ interface ICreateCategory {
 }
 
 interface ICategoriesRepository {
-  findByName(name: string): string | undefined
-  findById(id: string): Category | undefined
-  list(): Category[]
-  create({ name, description }: ICreateCategory): Category
+  create({ name, description }: ICreateCategory): Promise<Category>
+  list(): Promise<Category[]>
+  findByName(name: string): Promise<Category>
+  findById(id: string): Promise<Category>
 }
 
 export { ICategoriesRepository, ICreateCategory }

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import multer from 'multer'
 
-import { createCategoryController } from '../modules/cars/useCases/createCategory'
+import createCategoryController from '../modules/cars/useCases/createCategory'
 import { listCategoryController } from '../modules/cars/useCases/listCategories'
 import { importCategoryController } from '../modules/cars/useCases/importCategory'
 
@@ -16,7 +16,7 @@ categoriesRoutes.get('/', (request, response) => {
 })
 
 categoriesRoutes.post('/', (request, response) => {
-  return createCategoryController.handle(request, response)	
+  return createCategoryController().handle(request, response)	
 })
 
 categoriesRoutes.post('/import', upload.single("csv"), (request, response) => {
