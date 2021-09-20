@@ -1,5 +1,5 @@
-import { container } from 'tsyringe'
 import { Request, Response } from 'express'
+import { container } from 'tsyringe'
 
 import { CreateSpecificationUseCase } from './CreateSpecificationUseCase'
 
@@ -9,7 +9,7 @@ class CreateSpecificationController {
     const { name, description } = request.body
   
     const createSpecificationUseCase = container.resolve(CreateSpecificationUseCase)
-    
+    console.log(1, request.body)
     await createSpecificationUseCase.execute({ name, description })
 
     return response.status(201).send()
