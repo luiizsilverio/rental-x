@@ -15,7 +15,7 @@ class CategoriesRepository implements ICategoriesRepository {
   }
 
   async create({ name, description }: ICreateCategory): Promise<void> {
-    const category = await this.repository.create({
+    const category = this.repository.create({
       name,
       description
     })
