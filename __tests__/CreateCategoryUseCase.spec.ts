@@ -1,6 +1,6 @@
 import 'reflect-metadata'
-import { AppError } from '../src/errors/AppError'
-import { CreateCategoryUseCase } from "../src/modules/cars/useCases/createCategory/CreateCategoryUseCase"
+import { AppError } from '@errors/AppError'
+import { CreateCategoryUseCase } from "@modules/cars/useCases/createCategory/CreateCategoryUseCase"
 import { CategoriesRepositoryInMemory } from "./repositories/CategoriesRepositoryInMemory"
 
 let createCategoryUseCase: CreateCategoryUseCase
