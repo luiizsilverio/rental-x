@@ -1,5 +1,5 @@
-import { Category } from "../../src/modules/cars/entities/Category";
-import { ICategoriesRepository } from "../../src/modules/cars/repositories/ICategoriesRepository";
+import { Category } from "@modules/cars/entities/Category";
+import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
 
 class CategoriesRepositoryInMemory implements ICategoriesRepository {
   categories: Category[] = []
