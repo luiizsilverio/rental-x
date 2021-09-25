@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
-import { CarsRepositoryInMemory } from "@tests/repositories/CarsRepositoryInMemory";
-
+import { AppError } from "@errors/AppError";
+import { Car } from "@modules/cars/entities/Car";
 
 interface IRequest {
   name: string
@@ -29,9 +29,15 @@ class CreateCarUseCase {
     fine_amount, 
     brand, 
     category_id 
-  }: IRequest): Promise<void> {
+  }: IRequest): Promise<Car> {
 
-    await this.carsRepository.create({
+    const carExists = await this.carsRepository.findByPlate(plate)
+
+    if (carExists) {
+      throw new AppError("Car already exists")
+    }
+    
+    const car = await this.carsRepository.create({
       name, 
       description, 
       daily_rate, 
@@ -41,6 +47,7 @@ class CreateCarUseCase {
       category_id 
     })
 
+    return car
   }
 }
 

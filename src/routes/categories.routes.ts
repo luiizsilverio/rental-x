@@ -5,6 +5,7 @@ import { CreateCategoryController } from '../modules/cars/useCases/createCategor
 import { ImportCategoryController } from '../modules/cars/useCases/importCategory/ImportCategoryController'
 import { ListCategoriesController } from '../modules/cars/useCases/listCategories/ListCategoriesController'
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
+import { ensureAdmin } from 'middlewares/ensureAdmin'
 
 const categoriesRoutes = Router()
 
@@ -20,8 +21,17 @@ categoriesRoutes.use(ensureAuthenticated)
 
 categoriesRoutes.get('/', listCategoriesController.handle)
 
-categoriesRoutes.post('/', createCategoryController.handle)	
+categoriesRoutes.post('/', 
+  ensureAuthenticated,
+  ensureAdmin,
+  createCategoryController.handle
+)	
 
-categoriesRoutes.post('/import', upload.single("csv"), importCategoryController.handle)
+categoriesRoutes.post('/import', 
+  upload.single("csv"), 
+  ensureAuthenticated,
+  ensureAdmin,
+  importCategoryController.handle
+)
 
 export { categoriesRoutes }
