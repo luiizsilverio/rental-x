@@ -3,6 +3,7 @@ import { Car } from "@modules/cars/entities/Car";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 
 class CarsRepositoryInMemory implements ICarsRepository {
+  
   cars: Car[] = []
   
   async create({
@@ -33,6 +34,20 @@ class CarsRepositoryInMemory implements ICarsRepository {
   
   async findByPlate(plate: string): Promise<Car> {
     return this.cars.find(car => car.plate === plate)
+  }
+
+  async findAvailable(
+    brand?: string, 
+    category_id?: string, 
+    name?: string
+  ): Promise<Car[]> {
+
+    const cars = this.cars.filter(car => car.available)
+      .filter(car => !brand || car.brand === brand)
+      .filter(car => !category_id || car.category_id === category_id)
+      .filter(car => !name || car.name === name)
+
+    return cars 
   }
 }
 
