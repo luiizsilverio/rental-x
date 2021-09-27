@@ -38,8 +38,20 @@ describe("Create Car Specification", () => {
       category_id: "1234" 
     })
 
+    const specification = await specificationsRepository.create({
+      name: "especificação teste",
+      description: "lorem ipsum"
+    })
+
     const car_id = car.id
-    const specifications_id = ["1234"]
-    await createCarSpecificationUseCase.execute({ car_id, specifications_id })
+    const specifications_id = [specification.id]
+
+    const spec_cars = await createCarSpecificationUseCase.execute({ 
+      car_id, 
+      specifications_id 
+    })
+
+    expect(spec_cars).toHaveProperty("specifications")
+    expect(spec_cars.specifications.length).toBe(1)
   })
 })
