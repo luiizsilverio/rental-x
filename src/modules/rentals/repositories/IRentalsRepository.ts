@@ -1,4 +1,4 @@
-import { Rental } from "@modules/cars/entities/Rental";
+import { Rental } from "@modules/rentals/entities/Rental";
 import { ICreateRentalDTO } from "../dtos/ICreateRentalDTO";
 
 interface IRentalsRepository {

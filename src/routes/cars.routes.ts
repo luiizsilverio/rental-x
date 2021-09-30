@@ -1,10 +1,10 @@
 import { Router } from "express";
 import multer from "multer";
-import uploadConfig from "@config/upload"
 
+import uploadConfig from "@config/upload"
 import { CreateCarController } from "@modules/cars/useCases/createCar/CreateCarController";
-import { ensureAuthenticated } from "middlewares/ensureAuthenticated";
-import { ensureAdmin } from "middlewares/ensureAdmin";
+import { ensureAuthenticated } from "@middlewares/ensureAuthenticated";
+import { ensureAdmin } from "@middlewares/ensureAdmin";
 import { ListCarsController } from "@modules/cars/useCases/listCars/ListCarsController";
 import { CreateCarSpecificationController } from "@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController";
 import { UploadCarImagesController } from "@modules/cars/useCases/uploadCarImage/UploadCarImagesController";

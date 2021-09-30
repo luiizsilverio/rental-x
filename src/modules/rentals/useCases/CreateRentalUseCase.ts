@@ -1,7 +1,12 @@
+import { inject, injectable } from "tsyringe"
 import dayjs from "dayjs"
+import utc from "dayjs/plugin/utc"
+
 import { AppError } from "@errors/AppError"
-import { Rental } from "@modules/cars/entities/Rental"
+import { Rental } from "@modules/rentals/entities/Rental"
 import { IRentalsRepository } from "../repositories/IRentalsRepository"
+
+dayjs.extend(utc)
 
 interface IRequest {
   user_id: string
@@ -9,9 +14,11 @@ interface IRequest {
   expected_return_date: Date
 }
 
+@injectable()
 class CreateRentalUseCase {
 
   constructor(
+    @inject("RentalsRepository")
     private repository: IRentalsRepository
   ) {}
 
@@ -34,8 +41,11 @@ class CreateRentalUseCase {
     }
 
     // o aluguel deve ter duração mínima de 24h
+    console.log('expected_return_date:', expected_return_date)
     const dtRet = dayjs(expected_return_date).utc().local().format()
+    console.log('dtRet:', dtRet)
     const hoje = dayjs().utc().local().format()
+    console.log('hoje:', dtRet)
 
     const compare = dayjs(dtRet).diff(hoje, "hours") //converte a diferença em horas
 
