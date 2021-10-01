@@ -5,6 +5,7 @@ import utc from "dayjs/plugin/utc"
 import { AppError } from "@errors/AppError"
 import { Rental } from "@modules/rentals/entities/Rental"
 import { IRentalsRepository } from "../repositories/IRentalsRepository"
+import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository"
 
 dayjs.extend(utc)
 
@@ -19,7 +20,9 @@ class CreateRentalUseCase {
 
   constructor(
     @inject("RentalsRepository")
-    private repository: IRentalsRepository
+    private repository: IRentalsRepository,
+    @inject("CarsRepository")
+    private carsRepository: ICarsRepository
   ) {}
 
   async execute({
@@ -41,11 +44,8 @@ class CreateRentalUseCase {
     }
 
     // o aluguel deve ter duração mínima de 24h
-    console.log('expected_return_date:', expected_return_date)
     const dtRet = dayjs(expected_return_date).utc().local().format()
-    console.log('dtRet:', dtRet)
     const hoje = dayjs().utc().local().format()
-    console.log('hoje:', dtRet)
 
     const compare = dayjs(dtRet).diff(hoje, "hours") //converte a diferença em horas
 
@@ -59,6 +59,8 @@ class CreateRentalUseCase {
       expected_return_date
     })
     
+    await this.carsRepository.updateAvailable(car_id, false)
+
     return rental
   }
 }

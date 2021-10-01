@@ -2,8 +2,7 @@ import { ICreateCarDTO } from "@modules/cars/dtos/ICreateCarDTO";
 import { Car } from "@modules/cars/entities/Car";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 
-class CarsRepositoryInMemory implements ICarsRepository {
-  
+class CarsRepositoryInMemory implements ICarsRepository {    
   cars: Car[] = []
   
   async create({
@@ -54,6 +53,14 @@ class CarsRepositoryInMemory implements ICarsRepository {
       .filter(car => !name || car.name === name)
 
     return cars 
+  }
+
+  async updateAvailable(id: string, available: boolean): Promise<void> {
+    const carIndex = this.cars.findIndex(car => car.id === id)
+
+    if (carIndex >= 0) {
+      this.cars[carIndex].available = available
+    }
   }
 }
 

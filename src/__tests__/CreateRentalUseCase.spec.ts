@@ -5,18 +5,21 @@ import utc from "dayjs/plugin/utc"
 import { AppError } from "@errors/AppError"
 import { CreateRentalUseCase } from "@modules/rentals/useCases/CreateRentalUseCase"
 import { RentalsRepositoryInMemory } from "./repositories/RentalsRepositoryInMemory"
+import { CarsRepositoryInMemory } from './repositories/CarsRepositoryInMemory'
 
 dayjs.extend(utc)
 
 let createRentalUseCase: CreateRentalUseCase
 let rentalsRepository: RentalsRepositoryInMemory
+let carsRepositoryInMemory: CarsRepositoryInMemory
 
 describe("Create Rental", () => {
   const vdata = dayjs().add(1, "day").toDate()
 
   beforeEach(() => {
     rentalsRepository = new RentalsRepositoryInMemory()
-    createRentalUseCase = new CreateRentalUseCase(rentalsRepository)
+    carsRepositoryInMemory = new CarsRepositoryInMemory()
+    createRentalUseCase = new CreateRentalUseCase(rentalsRepository, carsRepositoryInMemory)
   })
 
   it("should be able to create a new rental", async () => {    
