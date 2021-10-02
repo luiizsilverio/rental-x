@@ -4,7 +4,7 @@ import utc from "dayjs/plugin/utc"
 
 import { AppError } from "@errors/AppError"
 import { Rental } from "@modules/rentals/entities/Rental"
-import { IRentalsRepository } from "../repositories/IRentalsRepository"
+import { IRentalsRepository } from "../../repositories/IRentalsRepository"
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository"
 
 dayjs.extend(utc)

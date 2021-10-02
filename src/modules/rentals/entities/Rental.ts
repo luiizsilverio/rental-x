@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm"
 import { v4 as uuid } from "uuid"
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm"
+import { Car } from "@modules/cars/entities/Car"
 
 @Entity("rentals")
 class Rental {
@@ -9,6 +10,10 @@ class Rental {
 
   @Column()
   car_id: string
+
+  @ManyToOne(() => Car)
+  @JoinColumn({name: "car_id"})
+  car: Car
 
   @Column()
   user_id: string

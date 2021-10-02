@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
 
 import { AppError } from "@errors/AppError"
-import { CreateRentalUseCase } from "@modules/rentals/useCases/CreateRentalUseCase"
+import { CreateRentalUseCase } from "@modules/rentals/useCases/createRental/CreateRentalUseCase"
 import { RentalsRepositoryInMemory } from "./repositories/RentalsRepositoryInMemory"
 import { CarsRepositoryInMemory } from './repositories/CarsRepositoryInMemory'
 
