@@ -19,7 +19,7 @@ class CreateCategoryUseCase {
     const categoryJaExiste = await this.repository.findByName(name)
 
     if (categoryJaExiste) {
-      throw new AppError("Categoria já existe ")
+      throw new AppError("Categoria já existe")
     }
 
     await this.repository.create({ name, description })

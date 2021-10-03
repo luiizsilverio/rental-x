@@ -35,17 +35,15 @@ describe("Create category", () => {
       description: "Categoria Teste"
     }
 
-    expect(async () => {
-      await createCategoryUseCase.execute({
+    await createCategoryUseCase.execute({
+      name: category.name,
+      description: category.description
+    })
+    
+    await expect(createCategoryUseCase.execute({
         name: category.name,
         description: category.description
       })
-
-      await createCategoryUseCase.execute({
-        name: category.name,
-        description: category.description
-      })
-    }).rejects.toBeInstanceOf(AppError)    
+    ).rejects.toEqual(new AppError("Categoria já existe"))    
   })
-
 })
