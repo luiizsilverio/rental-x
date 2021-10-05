@@ -2,11 +2,8 @@ import { inject, injectable } from "tsyringe";
 import { compare } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 
-import { AppError } from "@errors/AppError"
-import auth from '@config/auth'
 import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository"
-import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokensRepository";
-import dayjs from "dayjs";
+import { AppError } from "@errors/AppError"
 
 interface IRequest {
    email: string
@@ -18,17 +15,14 @@ interface IResponse {
       name: string,
       email: string
    },
-   token: string,
-   refresh_token: string
+   token: string
 }
 
 @injectable()
 class AuthenticateUserUseCase {
    constructor(
       @inject("UsersRepository")
-      private usersRepository: IUsersRepository,
-      @inject("UsersTokensRepository")
-      private usersTokensRepository: IUsersTokensRepository
+      private usersRepository: IUsersRepository
    ){}
    
    async execute({ email, password }: IRequest): Promise<IResponse> {
@@ -46,28 +40,14 @@ class AuthenticateUserUseCase {
       }
 
       // gerar o token
-      const token = sign({}, auth.secret, {
+      const token = sign({}, "ignite2021", {
          subject: user.id,
-         expiresIn: auth.expiresIn //"1d"
-      })
-
-      const refresh_token = sign({ email }, 
-         auth.secret_refresh_token, {
-            subject: user.id,
-            expiresIn: auth.expires_in_refresh_token
-         }
-      )
-
-      await this.usersTokensRepository.create({
-         user_id: user.id,
-         refresh_token,
-         expires_date: dayjs().add(30, 'days').toDate()
+         expiresIn: "1d"
       })
 
       return {
          user: { name, email },
-         token,
-         refresh_token
+         token
       }
    }
 }

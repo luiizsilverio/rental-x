@@ -1,15 +1,24 @@
 import { Request, Response, NextFunction } from "express"
 import { verify } from "jsonwebtoken"
 
+import auth from "@config/auth"
 import { AppError } from "../errors/AppError"
+import { UsersTokensRepository } from "@modules/accounts/repositories/implementations/UsersTokensRepository"
 import { UsersRepository } from "../modules/accounts/repositories/implementations/UsersRepository"
 
 interface IPayload {
    sub: string
 }
 
-export async function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
+export async function ensureAuthenticated(
+   request: Request, 
+   response: Response, 
+   next: NextFunction
+) {
+
    const authHeader = request.headers.authorization
+
+   const usersTokensRepository = new UsersTokensRepository()
 
    if (!authHeader) {
       throw new AppError("Token missing", 401)
@@ -18,11 +27,11 @@ export async function ensureAuthenticated(request: Request, response: Response, 
    const [,token] = authHeader.split(" ") //Bearer token
 
    try {
-      const { sub: user_id } = verify(token, "ignite2021") as IPayload
+      const { sub: user_id } = verify(token, auth.secret_refresh_token) as IPayload
 
       const usersRepository = new UsersRepository()
       
-      const user = await usersRepository.findById(user_id)
+      const user = await usersTokensRepository.findByUserId(user_id, token)
 
       if (!user) {
          throw new AppError("user does not exist", 401)
