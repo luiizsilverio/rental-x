@@ -21,6 +21,9 @@ import { RentalsRepository } from '@modules/rentals/repositories/RentalsReposito
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { UsersTokensRepository } from '@modules/accounts/repositories/implementations/UsersTokensRepository'
 
+import { EtherealMailProvider } from "@shared/MailProvider/EtherealMailProvider"
+import { IMailProvider } from "@shared/MailProvider/IMailProvider";
+
 container.registerSingleton<ICategoriesRepository>(
    "CategoriesRepository",
    CategoriesRepository
@@ -54,4 +57,9 @@ container.registerSingleton<IRentalsRepository>(
 container.registerSingleton<IUsersTokensRepository>(
    "UsersTokensRepository",
    UsersTokensRepository
+)
+
+container.registerInstance<IMailProvider>(
+  "EtherealMailProvider",
+  new EtherealMailProvider()
 )
